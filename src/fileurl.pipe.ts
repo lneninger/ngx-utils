@@ -1,18 +1,33 @@
 ﻿import { DomSanitizer } from '@angular/platform-browser'
-import { PipeTransform, Pipe } from '@angular/core';
-import { EnvironmentProvider } from './_common';
+import { PipeTransform, Pipe, Inject } from '@angular/core';
+import { EnvironmentProvider, EnvironmentData, HIPALANET_UTILS_CONFIGPROVIDER } from './_common';
 //import { Constants } from '../../shared/smartadmin.config';
+import { Observable, Subject, of } from 'rxjs';
+import { map, switchMap, mergeMap } from 'rxjs/operators'
 
 @Pipe({ name: 'fileUrl' })
 export class FileUrlPipe implements PipeTransform {
-    constructor(private sanitized: DomSanitizer, private envProvider: EnvironmentProvider) { }
-    transform(value: string, defaultSrc?: string, thumbnail: boolean = true): string {
+    constructor(private sanitized: DomSanitizer, private config: EnvironmentData, @Inject(HIPALANET_UTILS_CONFIGPROVIDER) private envProvider: EnvironmentProvider) { }
+    transform(value: string, defaultSrc?: string, thumbnail: boolean = true): Observable<string> {
+
+        let configDataObservable: Observable<EnvironmentData>;
+        if (!!this.config) {
+            configDataObservable = of(this.config);
+        }
+        else if (!!this.envProvider) {
+            configDataObservable = this.envProvider.getEnvironnmentData();
+        }
+        else {
+            console.log('HIPALANET: No configuration found');
+            return Observable.throw('HIPALANET: No configuration found');
+        }
+
         if (!value && defaultSrc) {
-            return defaultSrc;
+            return of(defaultSrc);
         }
 
         if (value.indexOf('http') == 0) {
-            return value;
+            return of(value);
         }
 
         //let internalOptions = <FileUrlPipeOptions>{ thumbnail: true };
@@ -24,10 +39,14 @@ export class FileUrlPipe implements PipeTransform {
 
         if (thumbnail !== undefined) {
             //debugger;
-            return `${this.envProvider.fileRetrieveUrl}?id=${value}&thumbnail=${thumbnail}`;
+            return configDataObservable.pipe(map(config => config), mergeMap(config => {
+                return of(`${config.fileRetrieveUrl}?id=${value}&thumbnail=${thumbnail}`);
+            }));
         }
         else {
-            return `${this.envProvider.fileRetrieveUrl}?id=${value}&thumbnail=true`;
+            return configDataObservable.pipe(map(config => config), mergeMap(config => {
+                return of(`${config.fileRetrieveUrl}?id=${value}&thumbnail=true`);
+            }));
         }
     }
 }

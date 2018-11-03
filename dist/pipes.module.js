@@ -26,7 +26,7 @@ var PipesModule = /** @class */ (function () {
     PipesModule = PipesModule_1 = __decorate([
         core_1.NgModule({
             imports: [],
-            declarations: [safehtml_pipe_1.SafeHtmlPipe, , fileurl_pipe_1.FileUrlPipe],
+            declarations: [safehtml_pipe_1.SafeHtmlPipe, fileurl_pipe_1.FileUrlPipe],
             providers: [safehtml_pipe_1.SafeHtmlPipe, fileurl_pipe_1.FileUrlPipe],
             exports: [safehtml_pipe_1.SafeHtmlPipe, fileurl_pipe_1.FileUrlPipe]
         })

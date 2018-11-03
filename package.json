@@ -2,7 +2,7 @@
   "name": "hipalanet-ngx-utils",
   "version": "1.0.0",
   "description": "NPM Package to group various generic  Angular 2x Pipes, Directives, Services and Components",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "test"
   },
@@ -19,6 +19,7 @@
   "dependencies": {
     "@angular/common": "^7.0.1",
     "@angular/core": "^7.0.1",
-    "@angular/platform-browser": "^7.0.1"
+    "@angular/platform-browser": "^7.0.1",
+    "rxjs": "6.3.3"
   }
 }

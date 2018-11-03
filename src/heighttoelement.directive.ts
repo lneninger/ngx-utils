@@ -1,6 +1,5 @@
 ﻿import { DomSanitizer } from '@angular/platform-browser'
-import { Directive, Input, ElementRef, OnInit, AfterViewInit } from '@angular/core';
-//import { LayoutService } from '../../shared/layout/layout.service';
+import { Directive, Input, ElementRef, OnInit, AfterViewInit, HostListener } from '@angular/core';
 
 declare var $: any;
 
@@ -20,15 +19,16 @@ export class HeightToElementDirective implements OnInit, AfterViewInit {
     @Input('currentPadding')
     currentPadding: number;
 
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        event.target.innerWidth;
+    }
+
     constructor(private elementRef: ElementRef/*, private layoutService: LayoutService*/) {
         //debugger;
     }
 
     ngAfterViewInit(): void {
-        this.layoutService.subscribe(() => {
-            this.setElementHeight();
-        });
-
         this.setElementHeight();
     }
 

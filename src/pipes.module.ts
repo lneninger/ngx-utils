@@ -8,7 +8,7 @@ export { FileUrlPipe } from './fileurl.pipe';
 
 @NgModule({
     imports: []
-    , declarations: [SafeHtmlPipe,, FileUrlPipe]
+    , declarations: [SafeHtmlPipe, FileUrlPipe]
     , providers: [SafeHtmlPipe, FileUrlPipe]
     , exports: [SafeHtmlPipe, FileUrlPipe]
 })

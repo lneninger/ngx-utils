@@ -1,0 +1,9 @@
+{
+  "name": "hipalanet-ngx-utils",
+  "version": "0.0.1",
+  "description": "NPM Package to group various generic  Angular 2x Pipes, Directives, Services and Components",
+  "peerDependencies": {
+    "@angular/common": "7.0.0",
+    "@angular/core": "7.0.0"
+  }
+}

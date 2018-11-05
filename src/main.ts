@@ -1,26 +1,13 @@
-import { NgModule, ModuleWithProviders } from "@angular/core";
-import { DirectivesModule } from "./directives.module";
-import { PipesModule } from "./pipes.module";
-import { EnvironmentProvider, EnvironmentData } from "./_common";
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
 
-@NgModule({
-    exports: [
-        DirectivesModule
-        , PipesModule
-    ],
-    providers: [EnvironmentProvider]
-
-})
-export class MainModule {
-
-    static forRoot(config?: EnvironmentData): ModuleWithProviders {
-        return {
-            ngModule: MainModule,
-            providers: [{
-                provide: EnvironmentData, useValue: config
-            }]
-        }
-
-    }
+if (environment.production) {
+  enableProdMode();
 }
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));
+
